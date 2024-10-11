@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
@@ -9,9 +9,16 @@ import ProductRating from "../ProductReviews/ProductRating";
 const ProductDetails = ({ selectedProduct }) => {
   const dispatch = useDispatch(); 
   const [quantity, setQuantity] = useState(1);
+  const [discountedPrice,setDiscountedPrice]=useState(0);
   const handleQuantityChange = (e) => {
     setQuantity(e.target.value);
   };
+  useEffect(() => {
+    window.scrollTo(0, 0); // Scroll to the top when the component loads
+    let calcDiscountedPrice = selectedProduct.price - (selectedProduct.price * (selectedProduct.discount / 100));
+    setDiscountedPrice(calcDiscountedPrice);
+  },[discountedPrice]); // Run this effect when the `id` changes
+  
   const handelAdd = (selectedProduct, quantity) => {
     dispatch(addToCart({ product: selectedProduct, num: quantity }));
     toast.success("Product has been added to cart!");
@@ -31,8 +38,15 @@ const ProductDetails = ({ selectedProduct }) => {
               <span>{selectedProduct?.rating} ratings</span>
             </div>
             <div className="info">
-              <span className="price">${selectedProduct?.price}</span>
-              <span>Category:{selectedProduct?.category}</span>
+            <div className="price-section">
+              {/* Original Price (slashed price above) */}
+              <span className=" original-price">${selectedProduct.price.toFixed(2)}</span>
+
+              {/* Discounted Price (displayed below original price) */}
+              <span className="  discounted-price">${discountedPrice.toFixed(2)}</span>
+            </div>
+            <span className="discount-info">Save {selectedProduct.discount}%!</span>
+            <span>Category:{selectedProduct?.category}</span>
             </div>
             <p>{selectedProduct?.description}</p>
             <input

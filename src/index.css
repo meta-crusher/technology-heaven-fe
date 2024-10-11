@@ -15,7 +15,7 @@ html {
 body {
   background-color: #ffffff;
   margin: 0;
-  font-family:  "Lexend", "Lato", sans-serif;
+  font-family:  "Lexend", "Lato", sans-serif !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

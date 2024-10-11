@@ -57,3 +57,30 @@
   font-size: 17px;
   border-radius: 7px;
 }
+
+/* Simplified price display */
+.price-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end; 
+  margin-bottom: 15px;
+}
+
+.original-price {
+  font-size: 15px;  /* Smaller size for original price */
+  text-decoration: line-through;
+  color: #888;  /* Grey color for slashed price */
+  margin-bottom: 5px;  /* Space between original and discounted price */
+}
+
+.discounted-price {
+  font-size: 25px;  /* Larger size for discounted price */
+  font-weight: bold;
+  color: #333;  /* Regular color for discounted price */
+}
+
+.discount-info {
+  font-size: 16px;           /* Slightly smaller size for the discount percentage */
+  color: green;                /* Red color for discount info */
+  font-weight: bold;         /* Bold text for emphasis */
+}
