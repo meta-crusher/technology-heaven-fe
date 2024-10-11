@@ -5,20 +5,36 @@ import { toast } from "react-toastify";
 import { addToCart } from "../../app/features/cart/cartSlice";
 import "./product-details.css";
 import ProductRating from "../ProductReviews/ProductRating";
+import PriceComponent from "./PriceComponent";
+import Counter from "./Counter";
+import ImageCarousel from "./ImageCarousel";
 
 const ProductDetails = ({ selectedProduct }) => {
   const dispatch = useDispatch(); 
   const [quantity, setQuantity] = useState(1);
-  const [discountedPrice,setDiscountedPrice]=useState(0);
+  const [discountedPrice,setDiscountedPrice]=useState(selectedProduct.price);
+  const [price,setPrice]=useState(0);
+  const [selectedItemSize, setSelectedItemSize] = useState(0);
   const handleQuantityChange = (e) => {
     setQuantity(e.target.value);
   };
   useEffect(() => {
     window.scrollTo(0, 0); // Scroll to the top when the component loads
-    let calcDiscountedPrice = selectedProduct.price - (selectedProduct.price * (selectedProduct.discount / 100));
+    setPrice(selectedItemSize ? selectedItemSize.price : selectedProduct.price);
+    let calcDiscountedPrice = price - (price * (selectedProduct.discount / 100));
     setDiscountedPrice(calcDiscountedPrice);
-  },[discountedPrice]); // Run this effect when the `id` changes
+  },[selectedProduct]);
   
+  const handleSizeSelection = (item) => {
+    const newPrice = item.price; // Set price based on the clicked item
+    const newDiscountedPrice = newPrice - (newPrice * (selectedProduct.discount / 100)); // Calculate discounted price
+
+    // Update state for both price and selected size
+    setPrice(newPrice);
+    setDiscountedPrice(newDiscountedPrice);
+    setSelectedItemSize(item); // Track the selected item
+  };
+
   const handelAdd = (selectedProduct, quantity) => {
     dispatch(addToCart({ product: selectedProduct, num: quantity }));
     toast.success("Product has been added to cart!");
@@ -29,7 +45,9 @@ const ProductDetails = ({ selectedProduct }) => {
       <Container>
         <Row className="justify-content-center">
           <Col md={6}>
-            <img loading="lazy" src={selectedProduct?.image[0]} alt="" />
+            <div className="selected-image-container">
+                <ImageCarousel images={selectedProduct?.image} />
+              </div>
           </Col>
           <Col md={6}>
             <h2>{selectedProduct?.title}</h2>
@@ -40,22 +58,29 @@ const ProductDetails = ({ selectedProduct }) => {
             <div className="info">
             <div className="price-section">
               {/* Original Price (slashed price above) */}
-              <span className=" original-price">${selectedProduct.price.toFixed(2)}</span>
+              <span className=" original-price">${price.toFixed(2)}</span>
 
               {/* Discounted Price (displayed below original price) */}
               <span className="  discounted-price">${discountedPrice.toFixed(2)}</span>
             </div>
             <span className="discount-info">Save {selectedProduct.discount}%!</span>
-            <span>Category:{selectedProduct?.category}</span>
             </div>
             <p>{selectedProduct?.description}</p>
-            <input
-              className="qty-input"
-              type="number"
-              placeholder="Qty"
-              value={quantity}
-              onChange={handleQuantityChange}
-            />
+            {/* <p><span>Category: {selectedProduct?.category}</span></p> */}
+            <div class="price-container">
+              <p><span> Sizes:  </span> </p>
+                 {selectedProduct?.sizes.map((item, index) => (
+                    <PriceComponent 
+                    key={index} 
+                    item={item} 
+                    isSelected={price === item.price} 
+                    onClick={() => handleSizeSelection(item )} />
+                ))}
+              
+            </div>
+            <div class="counter">
+            <Counter count={quantity} setCount={setQuantity} />
+            </div>
             <button
               aria-label="Add"
               type="submit"

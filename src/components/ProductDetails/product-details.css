@@ -1,6 +1,6 @@
 .product-page img {
   width: 100%;
-  height: 100%;
+  height: 450px;
   object-fit: contain;
 }
 
@@ -39,17 +39,6 @@
   margin: 20px 0;
 }
 
-.product-page .qty-input {
-  width: 80px;
-  height: 20px;
-  border: 1px solid black;
-  border-radius: 5px;
-  padding: 15px;
-  margin: 20px 0;
-  color: black;
-  font-size: 15px;
-}
-
 .product-page button.add {
   padding: 10px 15px;
   background-color: #0f3460;
@@ -83,4 +72,17 @@
   font-size: 16px;           /* Slightly smaller size for the discount percentage */
   color: green;                /* Red color for discount info */
   font-weight: bold;         /* Bold text for emphasis */
+}
+
+.counter{
+  margin-left: 10px;
+  margin-bottom: 10px;
+}
+
+.price-container{
+  display: flex;
+  margin-bottom: 20px;
+}
+.price-container > p{
+  margin-right:10px;
 }
