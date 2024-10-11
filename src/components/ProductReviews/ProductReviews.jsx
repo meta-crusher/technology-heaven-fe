@@ -4,6 +4,7 @@ import "./product-review.css";
 
 const ProductReviews = ({ selectedProduct }) => {
   const [listSelected, setListSelected] = useState("desc");
+  console.log("Selected Product",selectedProduct);
   return (
     <section className="product-reviews">
       <Container>
@@ -18,7 +19,7 @@ const ProductReviews = ({ selectedProduct }) => {
             style={{ color: listSelected === "rev" ? "black" : "#9c9b9b" }}
             onClick={() => setListSelected("rev")}
           >
-            Reviews ({selectedProduct?.reviews.length})
+            Reviews ({selectedProduct?.rating})
           </li>
         </ul>
         {listSelected === "desc" ? (
