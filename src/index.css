@@ -1,4 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
 * {
   padding: 0;
@@ -13,7 +15,7 @@ html {
 body {
   background-color: #ffffff;
   margin: 0;
-  font-family: "Lato", sans-serif;
+  font-family:  "Lexend", "Lato", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
