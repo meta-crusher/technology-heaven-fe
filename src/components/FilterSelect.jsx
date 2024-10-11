@@ -1,12 +1,12 @@
 import Select from 'react-select';
-import { products } from '../utils/products';
+import {useEffect} from "react";
 
 const options = [
-    { value: "sofa", label: "Sofa" },
-    { value: "chair", label: "Chair" },
-    { value: "watch", label: "Watch" },
-    { value: "mobile", label: "Mobile" },
-    { value: "wireless", label: "Wireless" },
+    { value: "Graphics Card", label: "Graphic Cards" },
+    { value: "hardDrive", label: "Hard Drives" },
+    { value: "ssd", label: "SSD" },
+    { value: "ram", label: "RAM" },
+    { value: "Other", label: "Other" }
 ];
 
 const customStyles = {
@@ -35,15 +35,15 @@ const customStyles = {
     }),
 };
 
-const FilterSelect = ({setFilterList}) => {
+const FilterSelect = ({setCategory, name}) => {
     const handleChange = (selectedOption)=> {
-        setFilterList(products.filter(item => item.category ===selectedOption.value))
+        setCategory(selectedOption);
     }
     return (
     <Select
     options={options}
-    defaultValue={{ value: "", label: "Filter By Category" }}
     styles={customStyles}
+    value={{label: name}}
     onChange={handleChange}
     />
     );
