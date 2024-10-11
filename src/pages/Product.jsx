@@ -7,7 +7,7 @@ import ProductDetails from "../components/ProductDetails/ProductDetails";
 import ProductReviews from "../components/ProductReviews/ProductReviews";
 import useWindowScrollToTop from "../hooks/useWindowScrollToTop";
 import axios from "axios";
-
+import {constants} from "../utils/constants";
 const Product = () => {
   const { id } = useParams(); // Get product ID from URL
   const [selectedProduct, setSelectedProduct] = useState(null); // Initialize as null to indicate no product is loaded yet
@@ -15,10 +15,9 @@ const Product = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0); // Scroll to the top when the component loads
-
     // Fetch product details by product ID
     axios
-      .get(`http://localhost:7000/api/v1/products/${id}`)
+      .get(constants.GET_PRODUCT+`${id}`)
       .then((response) => {
         setSelectedProduct(response.data.product); // Set the product data in state
       })
@@ -32,14 +31,12 @@ const Product = () => {
   // If the product is not yet loaded, show a loading message
   if (!selectedProduct) {
     return <div>Loading...</div>;
-  }
-  console.log(selectedProduct);
-
+  }   
   return (
     <Fragment>
       <Banner title={selectedProduct.title} /> {/* Display product name in banner */}
       <ProductDetails selectedProduct={selectedProduct} /> {/* Pass the product details */}
-      <ProductReviews selectedProduct={selectedProduct} /> Pass the product for reviews
+      {/* <ProductReviews selectedProduct={selectedProduct} /> Pass the product for reviews */}
       <section className="related-products">
         <Container>
           <h3>You might also like</h3>

@@ -4,10 +4,10 @@ import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { addToCart } from "../../app/features/cart/cartSlice";
 import "./product-details.css";
+import ProductRating from "../ProductReviews/ProductRating";
 
 const ProductDetails = ({ selectedProduct }) => {
-  const dispatch = useDispatch();
-
+  const dispatch = useDispatch(); 
   const [quantity, setQuantity] = useState(1);
   const handleQuantityChange = (e) => {
     setQuantity(e.target.value);
@@ -27,18 +27,12 @@ const ProductDetails = ({ selectedProduct }) => {
           <Col md={6}>
             <h2>{selectedProduct?.title}</h2>
             <div className="rate">
-              <div className="stars">
-                <i className="fa fa-star"></i>
-                <i className="fa fa-star"></i>
-                <i className="fa fa-star"></i>
-                <i className="fa fa-star"></i>
-                <i className="fa fa-star"></i>
-              </div>
+            <ProductRating rating={selectedProduct?.rating} />
               <span>{selectedProduct?.rating} ratings</span>
             </div>
             <div className="info">
               <span className="price">${selectedProduct?.price}</span>
-              <span>category:{selectedProduct?.category}</span>
+              <span>Category:{selectedProduct?.category}</span>
             </div>
             <p>{selectedProduct?.description}</p>
             <input
