@@ -15,7 +15,7 @@ const ImageCarousel = ({ images }) => {
     asNavFor: thumbnailSliderRef.current, // Sync with the thumbnail slider
   };
 
-  // Settings for the thumbnail slider
+  // Settings for the thumbnail slider (carousel)
   const thumbnailSliderSettings = {
     slidesToShow: 5,
     slidesToScroll: 1,
@@ -28,33 +28,41 @@ const ImageCarousel = ({ images }) => {
 
   return (
     <div className="carousel-container">
-      {/* Main Image Slider */}
-      <Slider
-        {...mainSliderSettings}
-        ref={mainSliderRef}
-        className="main-slider"
-        afterChange={(index) => setSelectedImage(images[index])} // Update selected image on change
-      >
-        {images.map((image, index) => (
-          <div key={index}>
-            <img src={image} alt={`Main Image ${index}`} className="main-image" />
-          </div>
-        ))}
-      </Slider>
+      {/* Main Image Display */}
+      <div className="main-slider">
+        <img src={selectedImage} alt="Selected" className="main-image" />
+      </div>
 
-      {/* Thumbnail Slider */}
-      <Slider {...thumbnailSliderSettings} ref={thumbnailSliderRef} className="thumbnail-slider">
-        {images.map((image, index) => (
-          <div key={index}>
+      {/* Conditional Rendering */}
+      {images.length >= 5 ? (
+        // If images are 5 or more, use the thumbnail carousel
+        <Slider {...thumbnailSliderSettings} ref={thumbnailSliderRef} className="thumbnail-slider">
+          {images.map((image, index) => (
+            <div key={index} onClick={() => setSelectedImage(image)}>
+              <img
+                src={image}
+                alt={`Thumbnail ${index}`}
+                className={`thumbnail ${selectedImage === image ? 'active-thumbnail' : ''}`}
+                style={{ width: '80px', height: 'auto', cursor: 'pointer' }}
+              />
+            </div>
+          ))}
+        </Slider>
+      ) : (
+        // If less than 5 images, show them as static thumbnails without carousel
+        <div className="thumbnail-list">
+          {images.map((image, index) => (
             <img
+              key={index}
               src={image}
               alt={`Thumbnail ${index}`}
+              onClick={() => setSelectedImage(image)}
               className={`thumbnail ${selectedImage === image ? 'active-thumbnail' : ''}`}
-              style={{ width: '80px', height: 'auto', cursor: 'pointer' }}
+              style={{ width: '80px', height: 'auto', cursor: 'pointer', marginRight: '10px' }}
             />
-          </div>
-        ))}
-      </Slider>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
