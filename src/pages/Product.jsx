@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import ProductDetails from "../components/ProductDetails/ProductDetails";
 import ProductReviews from "../components/ProductReviews/ProductReviews";
 import useWindowScrollToTop from "../hooks/useWindowScrollToTop";
+import axios from 'axios';
 
 const Product = () => {
   const { id } = useParams();
@@ -14,18 +15,32 @@ const Product = () => {
     products.filter((item) => parseInt(item.id) === parseInt(id))[0]
   );
   const [relatedProducts, setRelatedProducts] = useState([]);
+  // useEffect(() => {
+  //   window.scrollTo(0, 0);
+  //   setSelectedProduct(
+  //     products.filter((item) => parseInt(item.id) === parseInt(id))[0]
+  //   );
+  //   setRelatedProducts(
+  //     products.filter(
+  //       (item) =>
+  //         item.category === selectedProduct?.category &&
+  //         item.id !== selectedProduct?.id
+  //     )
+  //   );
+  // }, [selectedProduct, id]);
+
   useEffect(() => {
-    window.scrollTo(0, 0);
-    setSelectedProduct(
-      products.filter((item) => parseInt(item.id) === parseInt(id))[0]
-    );
-    setRelatedProducts(
-      products.filter(
-        (item) =>
-          item.category === selectedProduct?.category &&
-          item.id !== selectedProduct?.id
-      )
-    );
+      const url = 'http://localhost:3001/api/v1/products/6708d40f815785bb72091e5c';
+
+      axios.get(url)
+          .then(response => {
+              // Handle the response data
+              console.log('Product Data:', response.data);
+          })
+          .catch(error => {
+              // Handle any errors
+              console.error('Error fetching product data:', error);
+          });
   }, [selectedProduct, id]);
 
   useWindowScrollToTop();
