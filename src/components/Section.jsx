@@ -10,13 +10,13 @@ const Section = ({ title, bgColor, productItems }) => {
         </div>
         <Row className="justify-content-center">
           {productItems.map((productItem) => {
-            return (
-              <ProductCard
-                key={productItem.id}
-                title={title}
-                productItem={productItem}
-              />
-            );
+            // return (
+            //   <ProductCard
+            //     key={productItem.id}
+            //     title={title}
+            //     productItem={productItem}
+            //   />
+            // );
           })}
         </Row>
       </Container>
