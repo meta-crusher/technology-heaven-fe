@@ -1,7 +1,7 @@
 import { Col, Container, Row } from "react-bootstrap";
 import FilterSelect from "../components/FilterSelect";
 import SearchBar from "../components/SeachBar/SearchBar";
-import { Fragment, useState } from "react";
+import {Fragment, useEffect, useState} from "react";
 import { products } from "../utils/products";
 import ShopList from "../components/ShopList";
 import Banner from "../components/Banner/Banner";
@@ -11,6 +11,10 @@ const Shop = () => {
   const [filterList, setFilterList] = useState(
     products.filter((item) => item.category === "sofa")
   );
+
+  useEffect(() => {
+
+  }, []);
   useWindowScrollToTop();
 
   return (
