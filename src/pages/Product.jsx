@@ -11,7 +11,7 @@ import {constants} from "../utils/constants";
 const Product = () => {
   const { id } = useParams(); // Get product ID from URL
   const [selectedProduct, setSelectedProduct] = useState(null); // Initialize as null to indicate no product is loaded yet
-  // const [relatedProducts, setRelatedProducts] = useState([]); // Uncomment when needed
+   const [relatedProducts, setRelatedProducts] = useState([]); // Uncomment when needed
 
   useEffect(() => {
     window.scrollTo(0, 0); // Scroll to the top when the component loads
@@ -26,7 +26,20 @@ const Product = () => {
       });
   }, [id]); // Run this effect when the `id` changes
 
-  useWindowScrollToTop(); // Ensure the window scrolls to the top
+  // Fetch related products once when the component mounts
+  useEffect(() => {
+    // Fetch related products (this API call should only run once)
+    axios
+      .get(`${constants.GET_RELATED_PRODUCTS_BASE}${id}${constants.GET_RELATED_PRODUCTS_SUFFIX}`) // Assuming the related products API doesn't depend on the current product
+      .then((response) => {
+        console.log(response);
+        setRelatedProducts(response.data.related_products); // Set related products data
+      })
+      .catch((error) => {
+        console.error("Error fetching related products:", error); // Handle errors appropriately
+      });
+  }, []); // Empty dependency array to ensure this runs only once
+
 
   // If the product is not yet loaded, show a loading message
   if (!selectedProduct) {
@@ -41,8 +54,8 @@ const Product = () => {
         <Container>
           <h3>You might also like</h3>
         </Container>
-        {/* Related products logic can be added here */}
-        {/* <ShopList productItems={relatedProducts} /> */}
+         {/* Related products logic can be added here  */}
+         <ShopList productItems={relatedProducts} />
       </section>
     </Fragment>
   );

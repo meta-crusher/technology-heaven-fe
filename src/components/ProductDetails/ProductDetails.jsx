@@ -67,7 +67,7 @@ const ProductDetails = ({ selectedProduct }) => {
             </div>
             <p>{selectedProduct?.description}</p>
             {/* <p><span>Category: {selectedProduct?.category}</span></p> */}
-            <div class="price-container">
+            <div className="price-container">
               <p><span> Sizes:  </span> </p>
                  {selectedProduct?.sizes.map((item, index) => (
                     <PriceComponent 
@@ -78,7 +78,7 @@ const ProductDetails = ({ selectedProduct }) => {
                 ))}
               
             </div>
-            <div class="counter">
+            <div className="counter">
             <Counter count={quantity} setCount={setQuantity} />
             </div>
             <button
