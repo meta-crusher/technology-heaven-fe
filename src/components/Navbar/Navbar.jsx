@@ -1,153 +1,68 @@
-import {useEffect, useState} from "react";
-import {Container, Nav, Navbar} from "react-bootstrap";
+import React, {useEffect, useState} from "react";
+
 import "./navbar.css";
-import {Link} from "react-router-dom";
 import {useSelector} from "react-redux";
 
 const NavBar = () => {
     const {cartList} = useSelector((state) => state.cart);
-    const [expand, setExpand] = useState(false);
-    const [isFixed, setIsFixed] = useState(false);
+        const [opacity, setOpacity] = React.useState(1);
+        const [isOpen, setIsOpen] = React.useState(false);
 
-    // fixed Header
-    function scrollHandler() {
-        if (window.scrollY >= 100) {
-            setIsFixed(true);
-        } else if (window.scrollY <= 50) {
-            setIsFixed(false);
-        }
-    }
+        React.useEffect(() => {
+            const handleScroll = () => {
+                const scrollY = window.scrollY;
+                const newOpacity = Math.max(1 - scrollY / 300, 1);
+                setOpacity(newOpacity);
+            };
 
-    window.addEventListener("scroll", scrollHandler);
-    // useEffect(()=> {
-    //   if(CartItem.length ===0) {
-    //     const storedCart = localStorage.getItem("cartItem");
-    //     setCartItem(JSON.parse(storedCart));
-    //   }
-    // },[])
-    return (
-        <Navbar
-            fixed="top"
-            expand="md"
-            className={isFixed ? "navbar fixed" : "navbar"}
-        >
-            <Container className="navbar-container">
-                <Navbar.Brand as={Link} to="/">
-                    <ion-icon name="bag"></ion-icon>
-                    <h1 className="logo">Technology Heaven</h1>
-                </Navbar.Brand>
-                {/* Media cart and toggle */}
-                <div className="d-flex">
-                    <div className="media-cart">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                            fill="black"
-                            className="nav-icon"
-                        >
-                            <path
-                                fillRule="evenodd"
-                                d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z"
-                                clipRule="evenodd"
-                            />
-                        </svg>
-                        <Link
-                            aria-label="Go to Cart Page"
-                            to="/cart"
-                            className="cart"
-                            data-num={cartList.length}
-                        >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 24 24"
-                                fill="black"
-                                className="nav-icon"
-                            >
-                                <path
-                                    d="M2.25 2.25a.75.75 0 000 1.5h1.386c.17 0 .318.114.362.278l2.558 9.592a3.752 3.752 0 00-2.806 3.63c0 .414.336.75.75.75h15.75a.75.75 0 000-1.5H5.378A2.25 2.25 0 017.5 15h11.218a.75.75 0 00.674-.421 60.358 60.358 0 002.96-7.228.75.75 0 00-.525-.965A60.864 60.864 0 005.68 4.509l-.232-.867A1.875 1.875 0 003.636 2.25H2.25zM3.75 20.25a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zM16.5 20.25a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0z"/>
-                            </svg>
-                        </Link>
+            window.addEventListener('scroll', handleScroll);
+            return () => window.removeEventListener('scroll', handleScroll);
+        }, []);
+
+        return (
+            <div>
+                <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between p-4 bg-white shadow" style={{
+                    opacity }}>
+                    <div className="flex items-center space-x-4">
+                        <span className="text-lg font-semibold text-gray-800">Material Tailwind</span>
                     </div>
-                    <Navbar.Toggle
-                        aria-controls="basic-navbar-nav"
-                        onClick={() => {
-                            setExpand(expand ? false : "expanded");
-                        }}
-                    >
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </Navbar.Toggle>
-                </div>
-                <Navbar.Collapse id="basic-navbar-nav">
-                    <Nav className="justify-content-end flex-grow-1 pe-3">
-                        <Nav.Item>
-                            <Link
-                                aria-label="Go to Home Page"
-                                className="navbar-link"
-                                to="/"
-                                onClick={() => setExpand(false)}
-                            >
-                                <span className="nav-link-label">Home</span>
-                            </Link>
-                        </Nav.Item>
-
-                        <Nav.Item>
-                            <Link
-                                aria-label="Go to Shop Page"
-                                className="navbar-link"
-                                to="/shop"
-                                onClick={() => setExpand(false)}
-                            >
-                                <span className="nav-link-label">Shop</span>
-                            </Link>
-                        </Nav.Item>
-
-                        <Nav.Item>
-                            <Link
-                                aria-label="Go to Cart Page"
-                                className="navbar-link"
-                                to="/cart"
-                                onClick={() => setExpand(false)}
-                            >
-                                <span className="nav-link-label">Cart</span>
-                            </Link>
-                        </Nav.Item>
-                        <Nav.Item className="expanded-cart">
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 24 24"
-                                fill="black"
-                                className="nav-icon"
-                            >
-                                <path
-                                    fillRule="evenodd"
-                                    d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z"
-                                    clipRule="evenodd"
-                                />
-                            </svg>
-                            <Link
-                                aria-label="Go to Cart Page"
-                                to="/cart"
-                                className="cart"
-                                data-num={cartList.length}
-                            >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 24 24"
-                                    fill="black"
-                                    className="nav-icon"
-                                >
-                                    <path
-                                        d="M2.25 2.25a.75.75 0 000 1.5h1.386c.17 0 .318.114.362.278l2.558 9.592a3.752 3.752 0 00-2.806 3.63c0 .414.336.75.75.75h15.75a.75.75 0 000-1.5H5.378A2.25 2.25 0 017.5 15h11.218a.75.75 0 00.674-.421 60.358 60.358 0 002.96-7.228.75.75 0 00-.525-.965A60.864 60.864 0 005.68 4.509l-.232-.867A1.875 1.875 0 003.636 2.25H2.25zM3.75 20.25a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zM16.5 20.25a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0z"/>
-                                </svg>
-                            </Link>
-                        </Nav.Item>
-                    </Nav>
-                </Navbar.Collapse>
-            </Container>
-        </Navbar>
-    );
-};
+                    <div className="flex items-center space-x-4">
+                        <div className="hidden md:flex items-center space-x-4">
+                            <a href="#" className="text-gray-600 hover:text-gray-800 hover:opacity-100">Pages</a>
+                            <a href="#" className="text-gray-600 hover:text-gray-800 hover:opacity-100">Account</a>
+                            <a href="#" className="text-gray-600 hover:text-gray-800 hover:opacity-100">Blocks</a>
+                            <a href="#" className="text-gray-600 hover:text-gray-800 hover:opacity-100">Docs</a>
+                            <a href="#" className="text-gray-600 hover:text-gray-800 hover:opacity-100">LOG IN</a>
+                            <button className="px-4 py-2 text-white bg-gray-800 rounded-full hover:bg-gray-700 hover:opacity-100">SIGN IN</button>
+                        </div>
+                        <button className="block md:hidden" onClick={() => setIsOpen(true)}>
+                            <i className="fas fa-bars text-gray-800"></i>
+                        </button>
+                    </div>
+                </nav>
+                {isOpen && (
+                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                        <div className="bg-white p-6 rounded-lg shadow-lg w-11/12 max-w-md">
+                            <div className="flex justify-between items-center mb-4">
+                                <span className="text-lg font-semibold text-gray-800">Menu</span>
+                                <button onClick={() => setIsOpen(false)}>
+                                    <i className="fas fa-times text-gray-800"></i>
+                                </button>
+                            </div>
+                            <div className="flex flex-col space-y-4">
+                                <a href="#" className="text-gray-600 hover:text-gray-800 hover:opacity-100">Pages</a>
+                                <a href="#" className="text-gray-600 hover:text-gray-800 hover:opacity-100">Account</a>
+                                <a href="#" className="text-gray-600 hover:text-gray-800 hover:opacity-100">Blocks</a>
+                                <a href="#" className="text-gray-600 hover:text-gray-800 hover:opacity-100">Docs</a>
+                                <a href="#" className="text-gray-600 hover:text-gray-800 hover:opacity-100">LOG IN</a>
+                                <button className="px-4 py-2 text-white bg-gray-800 rounded-full hover:bg-gray-700 hover:opacity-100">SIGN IN</button>
+                            </div>
+                        </div>
+                    </div>
+                )}
+            </div>
+        );
+}
+;
 
 export default NavBar;
