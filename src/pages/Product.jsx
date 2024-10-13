@@ -38,7 +38,7 @@ const Product = () => {
       .catch((error) => {
         console.error("Error fetching related products:", error); // Handle errors appropriately
       });
-  }, []); // Empty dependency array to ensure this runs only once
+  }, [id]); // Empty dependency array to ensure this runs only once
 
 
   // If the product is not yet loaded, show a loading message

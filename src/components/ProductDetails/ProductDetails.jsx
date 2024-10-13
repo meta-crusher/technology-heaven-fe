@@ -5,9 +5,9 @@ import { toast } from "react-toastify";
 import { addToCart } from "../../app/features/cart/cartSlice";
 import "./product-details.css";
 import ProductRating from "../ProductReviews/ProductRating";
-import PriceComponent from "./PriceComponent";
-import Counter from "./Counter";
-import ImageCarousel from "./ImageCarousel";
+import PriceComponent from "./PriceComponent/PriceComponent";
+import Counter from "./Counter/Counter";
+import ImageCarousel from "./ImageCarousel/ImageCarousel";
 
 const ProductDetails = ({ selectedProduct }) => {
   const dispatch = useDispatch(); 
@@ -81,6 +81,7 @@ const ProductDetails = ({ selectedProduct }) => {
             <div className="counter">
             <Counter count={quantity} setCount={setQuantity} />
             </div>
+            <div className="button-container">
             <button
               aria-label="Add"
               type="submit"
@@ -89,6 +90,16 @@ const ProductDetails = ({ selectedProduct }) => {
             >
               Add To Cart
             </button>
+            <button
+              aria-label="Add"
+              type="submit"
+              className="add"
+              onClick={() => handelAdd(selectedProduct, quantity)}
+            >
+              Buy Now
+            </button>
+
+            </div>
           </Col>
         </Row>
       </Container>

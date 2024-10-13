@@ -86,3 +86,9 @@
 .price-container > p{
   margin-right:10px;
 }
+
+.button-container{
+  display: flex;
+  width: 40%;
+  justify-content: space-around;
+}
